@@ -8,7 +8,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/urfave/cli/v3"
 	"image"
+	"image/jpeg"
 	"os"
+	"steganography/internal/helper"
 	"steganography/internal/lsb"
 )
 
@@ -123,9 +125,22 @@ func executeEncode(_ context.Context, command *cli.Command) error {
 	}
 	defer inputFile.Close()
 
-	// Reads binary data from input file
+	// Get content type
 	reader := bufio.NewReader(inputFile)
-	img, _, err := image.Decode(reader)
+	bts, _ := reader.Peek(512)
+	contentType := helper.GetContentType(bts)
+
+	// Reads binary data from input file
+	var img image.Image
+	img, _, err = image.Decode(reader)
+	switch {
+	case helper.IsPngContentType(contentType):
+
+	case helper.IsJpgContentType(contentType) || helper.IsJpegContentType(contentType):
+		img, err = jpeg.Decode(reader)
+	default:
+		err = errors.New("unknown image format: image format must be PNG, JPG or JPEG")
+	}
 	if err != nil {
 		return errors.Wrap(err, "failed to decode input image")
 	}
@@ -179,9 +194,22 @@ func executeDecode(_ context.Context, command *cli.Command) error {
 	}
 	defer inputFile.Close()
 
-	// Reads binary data from input file
+	// Get content type
 	reader := bufio.NewReader(inputFile)
-	img, _, err := image.Decode(reader)
+	bts, _ := reader.Peek(512)
+	contentType := helper.GetContentType(bts)
+
+	// Reads binary data from input file
+	var img image.Image
+	img, _, err = image.Decode(reader)
+	switch {
+	case helper.IsPngContentType(contentType):
+
+	case helper.IsJpgContentType(contentType) || helper.IsJpegContentType(contentType):
+		img, err = jpeg.Decode(reader)
+	default:
+		err = errors.New("unknown image format: image format must be PNG, JPG or JPEG")
+	}
 	if err != nil {
 		return errors.Wrap(err, "failed to decode input image")
 	}
