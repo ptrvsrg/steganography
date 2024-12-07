@@ -97,13 +97,21 @@ OPTIONS:
 ```sh
 $ make test
 ?       steganography/cmd/lsb   [no test files]
-=== RUN   TestEncodeFromFile
---- PASS: TestEncodeFromFile (0.10s)
-=== RUN   TestDecodeFromFile
---- PASS: TestDecodeFromFile (0.02s)
+?       steganography/internal/helper   [no test files]
+=== RUN   TestEncodeFromPngFile
+--- PASS: TestEncodeFromPngFile (0.11s)
+=== RUN   TestDecodeFromPngFile
+--- PASS: TestDecodeFromPngFile (0.02s)
+=== RUN   TestEncodeFromJpgFile
+--- PASS: TestEncodeFromJpgFile (0.04s)
+=== RUN   TestDecodeFromJpgFile
+--- PASS: TestDecodeFromJpgFile (0.01s)
+=== RUN   TestEncodeFromJpegFile
+--- PASS: TestEncodeFromJpegFile (0.01s)
+=== RUN   TestDecodeFromJpegFile
+--- PASS: TestDecodeFromJpegFile (0.00s)
 PASS
-ok      steganography/internal/lsb      0.481s
-                                 show help
+ok      steganography/internal/lsb      0.668s
 ```
 
 ## License
